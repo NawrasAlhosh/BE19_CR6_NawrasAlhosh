@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+{% block title %}Music's events
+{% endblock %}
+{% block body %}
+	<h1>Music's Events</h1>
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+			Filter Events
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+			<li>
+				<a class="dropdown-item" href="{{ path('filter_events', {'type': 'music'}) }}">Show music events</a>
+			</li>
+			<li>
+				<a class="dropdown-item" href="{{ path('filter_events', {'type': 'art'}) }}">Show art events</a>
+			</li>
+			<li>
+				<a class="dropdown-item" href="{{ path('filter_events', {'type': 'sport'}) }}">Show sport events</a>
+			</li>
+			<li>
+				<a class="dropdown-item" href="{{ path('filter_events', {'type': 'education'}) }}">Show education events</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="row">
+		{% for event in events %}
+			<div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+				<div class="card h-100">
+					<img src="{{ event.image }}" class="card-img-top" alt="{{ event.name }}" style="height: 200px; object-fit: cover;">
+					<div class="card-body">
+						<h5 class="card-title">{{ event.name }}</h5>
+						<p class="card-text">{{ event.description }}</p>
+						<p class="card-text">
+							<small class="text-muted">{{ event.date ? event.date|date('Y-m-d H:i') : '' }}</small>
+						</p>
+						<a href="{{ path('app_events_show', {'id': event.id}) }}" class="btn btn-outline-primary">More Details</a>
+						<a href="{{ path('app_events_edit', {'id': event.id}) }}" class="btn btn-outline-secondary">Edit</a>
+						<a href="{{ path('app_events_delete', {'id': event.id}) }}" class="btn btn-outline-danger">Delete</a>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<p class="text-center">No records found</p>
+		{% endfor %}
+	</div>
+
+	<a href="{{ path('app_events_new') }}" class="btn btn-outline-success">Create New</a>
+{% endblock %}
